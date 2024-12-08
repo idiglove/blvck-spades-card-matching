@@ -6,9 +6,10 @@ interface CardProps {
   onFlip: () => void;
   isFlipped: boolean;
   image: StaticImageData;
+  disabled: boolean;
 }
 
-const Card = ({ onFlip, isFlipped, image }: CardProps) => {
+const Card = ({ onFlip, isFlipped, image, disabled }: CardProps) => {
   return (
     <div
       className="relative w-[150px] h-[220px]"
@@ -17,10 +18,14 @@ const Card = ({ onFlip, isFlipped, image }: CardProps) => {
         transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
         transition: "transform 0.6s",
         cursor: "pointer",
+        pointerEvents: disabled ? "none" : "auto",
       }}
     >
       <CardHolder>
-        <div className="bg-black w-[150px] h-[208px]" onClick={onFlip}></div>
+        <div
+          className="bg-gradient-to-t from-[#efbf04] to-black-500 w-[150px] h-[208px] rounded-lg"
+          onClick={onFlip}
+        ></div>
       </CardHolder>
       <CardHolder
         style={{
