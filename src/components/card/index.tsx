@@ -1,17 +1,17 @@
 "use client";
-import Image from "next/image";
-import CardImage from "@/assets/queen-spades.png";
+import Image, { StaticImageData } from "next/image";
 import CardHolder from "./card-holder";
 
 interface CardProps {
   onFlip: () => void;
   isFlipped: boolean;
+  image: StaticImageData;
 }
 
-const Card = ({ onFlip, isFlipped }: CardProps) => {
+const Card = ({ onFlip, isFlipped, image }: CardProps) => {
   return (
     <div
-      className="relative w-full h-screen"
+      className="relative w-[150px] h-[220px]"
       style={{
         transformStyle: "preserve-3d",
         transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
@@ -20,10 +20,14 @@ const Card = ({ onFlip, isFlipped }: CardProps) => {
       }}
     >
       <CardHolder>
-        <div className="bg-black w-[300px] h-[300px]" onClick={onFlip}></div>
+        <div className="bg-black w-[150px] h-[208px]" onClick={onFlip}></div>
       </CardHolder>
-      <CardHolder style={{ transform: "rotateY(180deg)" }}>
-        <Image src={CardImage} width={300} height={300} alt="card" />
+      <CardHolder
+        style={{
+          transform: "rotateY(180deg)",
+        }}
+      >
+        <Image src={image} width={300} height={300} alt="card" />
       </CardHolder>
     </div>
   );
