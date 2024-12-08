@@ -8,7 +8,11 @@ import KingCloverImage from "@/assets/king-clover.png";
 import KingSpadesImage from "@/assets/king-spades.png";
 import KingImage from "@/assets/king.png";
 
-const CardGrid = () => {
+interface CardGridProps {
+  onGameEnd: () => void;
+}
+
+const CardGrid = ({ onGameEnd }: CardGridProps) => {
   const cards = [
     {
       id: 1,
@@ -132,7 +136,13 @@ const CardGrid = () => {
           );
         }, 1000);
       }
-    }    
+    }
+
+    const allCorrect = _cards.every((card) => card.isCorrect);
+    if (allCorrect) {
+      onGameEnd();
+    }
+
     setCardsState(_cards);
   };
 

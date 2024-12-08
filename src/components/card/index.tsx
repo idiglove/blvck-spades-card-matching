@@ -23,7 +23,7 @@ const Card = ({ onFlip, isFlipped, image, disabled }: CardProps) => {
     >
       <CardHolder>
         <div
-          className="bg-gradient-to-t from-[#efbf04] to-black-500 w-[150px] h-[208px] rounded-lg"
+          className="bg-gradient-to-t from-gold to-black-500 w-[150px] h-[208px] rounded-lg"
           onClick={onFlip}
         ></div>
       </CardHolder>
