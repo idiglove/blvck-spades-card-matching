@@ -10,7 +10,7 @@ import { CardType } from "@/types";
 
 export const metadata: Metadata = {
   title: "Blvck Spades Card Matching Game",
-  description: "Play our game to with discounts on our store",
+  description: "Play our game to win discounts on our store",
 };
 
 export default function Home() {
