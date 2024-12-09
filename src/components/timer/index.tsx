@@ -1,6 +1,7 @@
 "use client";
 import confetti from "canvas-confetti";
 import { useEffect, useState } from "react";
+import { run } from "@/actions/connect";
 
 interface TimerProps {
   gameEnded: boolean;
@@ -32,7 +33,7 @@ const Timer = ({ gameEnded }: TimerProps) => {
       const randomInRange = (min: number, max: number) =>
         Math.random() * (max - min) + min;
 
-      const interval = window.setInterval(() => {
+      const interval = setInterval(() => {
         const timeLeft = animationEnd - Date.now();
 
         if (timeLeft <= 0) {
@@ -51,8 +52,19 @@ const Timer = ({ gameEnded }: TimerProps) => {
           origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
         });
       }, 250);
+
+      const getDB = async () => {
+        await run(time, "John Doe", "black-spades1@inboxkitten.com");
+      };
+
+      getDB();
+
+      return () => {
+        clearInterval(interval);
+      };
     }
-  }, [gameEnded]);
+    // }, []);
+  }, [gameEnded, time]);
 
   return (
     <div className="text-center p-2 bg-gold text-black">
