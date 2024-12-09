@@ -85,7 +85,7 @@ const Timer = ({ gameEnded, onGameEnd, playerWasSuccessful }: TimerProps) => {
     <div className="text-center p-2 bg-gold text-black">
       <h2 className="text-2xl font-bold">Time to beat: {TIME_TO_BEAT}s!</h2>
       <h3 className="text-5xl font-bold">{time}</h3>
-      <dialog ref={dialog} className="p-5 rounded-lg  bg-black">
+      <dialog ref={dialog} className="p-5 rounded-lg dialog">
         <p className="text-gold rounded-lg mb-2 block text-xl">Game Over!</p>
         <button
           className="p-1 text-white"

@@ -1,3 +1,7 @@
-dialog::backdrop {
+.dialog {
+  background-color: black;
+}
+
+.dialog::backdrop {
   background-color: rgba(0, 0, 0, 0.5);
 }
