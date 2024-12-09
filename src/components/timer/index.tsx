@@ -1,19 +1,30 @@
 "use client";
 import confetti from "canvas-confetti";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import "./style.module.scss";
 // import { run } from "@/actions/connect";
+
+const TIME_TO_BEAT = 20;
 
 interface TimerProps {
   gameEnded: boolean;
+  playerWasSuccessful: boolean;
+  onGameEnd: () => void;
 }
 
-const Timer = ({ gameEnded }: TimerProps) => {
+const Timer = ({ gameEnded, onGameEnd, playerWasSuccessful }: TimerProps) => {
+  const dialog = useRef<HTMLDialogElement>(null);
   const [time, setTime] = useState(0);
 
   useEffect(() => {
     const timerInterval = setInterval(() => {
       setTime(time + 1);
     }, 1000);
+
+    if (time >= TIME_TO_BEAT) {
+      onGameEnd();
+      clearInterval(timerInterval);
+    }
 
     if (gameEnded) {
       clearInterval(timerInterval);
@@ -22,10 +33,14 @@ const Timer = ({ gameEnded }: TimerProps) => {
     return () => {
       clearInterval(timerInterval);
     };
-  }, [gameEnded, time]);
+  }, [gameEnded, onGameEnd, time]);
 
   useEffect(() => {
-    if (gameEnded) {
+    if (gameEnded && !playerWasSuccessful) {
+      dialog.current?.showModal();
+      return;
+    }
+    if (gameEnded && playerWasSuccessful) {
       const duration = 5 * 1000;
       const animationEnd = Date.now() + duration;
       const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
@@ -64,12 +79,24 @@ const Timer = ({ gameEnded }: TimerProps) => {
       };
     }
     // }, []);
-  }, [gameEnded, time]);
+  }, [gameEnded, playerWasSuccessful, time]);
 
   return (
     <div className="text-center p-2 bg-gold text-black">
-      <h2 className="text-2xl font-bold">Timer</h2>
+      <h2 className="text-2xl font-bold">Time to beat: {TIME_TO_BEAT}s!</h2>
       <h3 className="text-5xl font-bold">{time}</h3>
+      <dialog ref={dialog} className="p-5 rounded-lg  bg-black">
+        <p className="text-gold rounded-lg mb-2 block text-xl">Game Over!</p>
+        <button
+          className="p-1 text-white"
+          onClick={() => {
+            dialog.current?.close();
+            window.location.reload();
+          }}
+        >
+          Close
+        </button>
+      </dialog>
     </div>
   );
 };

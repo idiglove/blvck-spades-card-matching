@@ -4,11 +4,12 @@ import Card from "../card";
 import { CardType } from "@/types";
 
 interface CardGridProps {
-  onGameEnd: () => void;
+  onGameEnd: ({ didPlayerComplete }: { didPlayerComplete: boolean }) => void;
+  gameEnded: boolean;
   cards: CardType[];
 }
 
-const CardGrid = ({ onGameEnd, cards }: CardGridProps) => {
+const CardGrid = ({ onGameEnd, cards, gameEnded }: CardGridProps) => {
   const [cardsState, setCardsState] = useState(cards);
   const [disabled, setDisabled] = useState(false);
 
@@ -49,7 +50,7 @@ const CardGrid = ({ onGameEnd, cards }: CardGridProps) => {
 
     const allCorrect = _cards.every((card) => card.isCorrect);
     if (allCorrect) {
-      onGameEnd();
+      onGameEnd({ didPlayerComplete: true });
     }
 
     setCardsState(_cards);
@@ -61,7 +62,7 @@ const CardGrid = ({ onGameEnd, cards }: CardGridProps) => {
         <Card
           key={card.id}
           image={card.image}
-          disabled={disabled || card.isCorrect}
+          disabled={disabled || card.isCorrect || gameEnded}
           onFlip={() => onFlip(card.id)}
           isFlipped={card.isFlipped}
         />

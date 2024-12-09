@@ -9,11 +9,25 @@ interface GameProps {
 }
 
 const Game = ({ shuffledCards }: GameProps) => {
+  const [playerWasSuccessful, setPlayerWasSuccessful] = useState(false);
   const [gameEnded, setGameEnded] = useState(false);
   return (
     <>
-      <Timer gameEnded={gameEnded} />
-      <CardGrid onGameEnd={() => setGameEnded(true)} cards={shuffledCards} />
+      <Timer
+        gameEnded={gameEnded}
+        onGameEnd={() => setGameEnded(true)}
+        playerWasSuccessful={playerWasSuccessful}
+      />
+      <CardGrid
+        onGameEnd={({ didPlayerComplete }: { didPlayerComplete: boolean }) => {
+          if (didPlayerComplete) {
+            setPlayerWasSuccessful(true);
+          }
+          setGameEnded(true);
+        }}
+        cards={shuffledCards}
+        gameEnded={gameEnded}
+      />
     </>
   );
 };
