@@ -1,105 +1,14 @@
 "use client";
 import { useState } from "react";
 import Card from "../card";
-import QueenSpadesImage from "@/assets/queen-spades.png";
-import JokerRedImage from "@/assets/joker-red.png";
-import JokerImage from "@/assets/joker.png";
-import KingCloverImage from "@/assets/king-clover.png";
-import KingSpadesImage from "@/assets/king-spades.png";
-import KingImage from "@/assets/king.png";
+import { CardType } from "@/types";
 
 interface CardGridProps {
   onGameEnd: () => void;
+  cards: CardType[];
 }
 
-const CardGrid = ({ onGameEnd }: CardGridProps) => {
-  const cards = [
-    {
-      id: 1,
-      name: "Queen of Spades",
-      image: QueenSpadesImage,
-      isFlipped: false,
-      isCorrect: false,
-    },
-    {
-      id: 2,
-      name: "Joker Red",
-      image: JokerRedImage,
-      isFlipped: false,
-      isCorrect: false,
-    },
-    {
-      id: 3,
-      name: "Joker",
-      image: JokerImage,
-      isFlipped: false,
-      isCorrect: false,
-    },
-    {
-      id: 4,
-      name: "King of Clover",
-      image: KingCloverImage,
-      isFlipped: false,
-      isCorrect: false,
-    },
-    {
-      id: 5,
-      name: "King of Spades",
-      image: KingSpadesImage,
-      isFlipped: false,
-      isCorrect: false,
-    },
-    {
-      id: 6,
-      name: "King",
-      image: KingImage,
-      isFlipped: false,
-      isCorrect: false,
-    },
-    {
-      id: 7,
-      name: "Queen of Spades",
-      image: QueenSpadesImage,
-      isFlipped: false,
-      isCorrect: false,
-    },
-    {
-      id: 8,
-      name: "Joker Red",
-      image: JokerRedImage,
-      isFlipped: false,
-      isCorrect: false,
-    },
-    {
-      id: 9,
-      name: "Joker",
-      image: JokerImage,
-      isFlipped: false,
-      isCorrect: false,
-    },
-    {
-      id: 10,
-      name: "King of Clover",
-      image: KingCloverImage,
-      isFlipped: false,
-      isCorrect: false,
-    },
-    {
-      id: 11,
-      name: "King of Spades",
-      image: KingSpadesImage,
-      isFlipped: false,
-      isCorrect: false,
-    },
-    {
-      id: 12,
-      name: "King",
-      image: KingImage,
-      isFlipped: false,
-      isCorrect: false,
-    },
-  ];
-
+const CardGrid = ({ onGameEnd, cards }: CardGridProps) => {
   const [cardsState, setCardsState] = useState(cards);
   const [disabled, setDisabled] = useState(false);
 

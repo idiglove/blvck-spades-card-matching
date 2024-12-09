@@ -1,7 +1,7 @@
 "use client";
 import confetti from "canvas-confetti";
 import { useEffect, useState } from "react";
-import { run } from "@/actions/connect";
+// import { run } from "@/actions/connect";
 
 interface TimerProps {
   gameEnded: boolean;
@@ -53,11 +53,11 @@ const Timer = ({ gameEnded }: TimerProps) => {
         });
       }, 250);
 
-      const getDB = async () => {
-        await run(time, "John Doe", "black-spades1@inboxkitten.com");
-      };
+      // const getDB = async () => {
+      //   await run(time, "John Doe", "black-spades1@inboxkitten.com");
+      // };
 
-      getDB();
+      // getDB();
 
       return () => {
         clearInterval(interval);
