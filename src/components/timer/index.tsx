@@ -17,6 +17,7 @@ const Timer = ({ gameEnded, onGameEnd, playerWasSuccessful }: TimerProps) => {
   const dialog = useRef<HTMLDialogElement>(null);
   const winDialog = useRef<HTMLDialogElement>(null);
   const [time, setTime] = useState(0);
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     const timerInterval = setInterval(() => {
@@ -81,7 +82,7 @@ const Timer = ({ gameEnded, onGameEnd, playerWasSuccessful }: TimerProps) => {
 
   const submitReward = () => {
     const submit = async () => {
-      await run({ email: "black-spades3@inboxkitten.com" });
+      await run({ email });
     };
 
     submit();
@@ -115,6 +116,8 @@ const Timer = ({ gameEnded, onGameEnd, playerWasSuccessful }: TimerProps) => {
             className="p-2 outline-none rounded-lg mb-2"
             type="email"
             placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <button
             className="p-1 text-white border-[1px] border-white rounded-lg"
