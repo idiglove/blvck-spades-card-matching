@@ -2,9 +2,9 @@
 import confetti from "canvas-confetti";
 import { useEffect, useRef, useState } from "react";
 import "./style.module.scss";
-// import { run } from "@/actions/connect";
+import { run } from "@/actions/connect";
 
-const TIME_TO_BEAT = 20;
+const TIME_TO_BEAT = 30;
 
 interface TimerProps {
   gameEnded: boolean;
@@ -35,11 +35,21 @@ const Timer = ({ gameEnded, onGameEnd, playerWasSuccessful }: TimerProps) => {
     };
   }, [gameEnded, onGameEnd, time]);
 
+  // for test
+  // useEffect(() => {
+  //   const getDB = async () => {
+  //     await run({ email: "black-spades3@inboxkitten.com" });
+  //   };
+
+  //   getDB();
+  // }, []);
+
   useEffect(() => {
     if (gameEnded && !playerWasSuccessful) {
       dialog.current?.showModal();
       return;
     }
+
     if (gameEnded && playerWasSuccessful) {
       const duration = 5 * 1000;
       const animationEnd = Date.now() + duration;
@@ -68,17 +78,16 @@ const Timer = ({ gameEnded, onGameEnd, playerWasSuccessful }: TimerProps) => {
         });
       }, 250);
 
-      // const getDB = async () => {
-      //   await run(time, "John Doe", "black-spades1@inboxkitten.com");
-      // };
+      const getDB = async () => {
+        await run({ email: "black-spades3@inboxkitten.com" });
+      };
 
-      // getDB();
+      getDB();
 
       return () => {
         clearInterval(interval);
       };
     }
-    // }, []);
   }, [gameEnded, playerWasSuccessful, time]);
 
   return (
