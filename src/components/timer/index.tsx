@@ -1,8 +1,9 @@
 "use client";
 import confetti from "canvas-confetti";
-import { useEffect, useRef, useState } from "react";
-import "./style.module.scss";
+import clsx from "classnames";
 import { run } from "@/actions/connect";
+import { useEffect, useRef, useState } from "react";
+import styles from "./style.module.scss";
 
 const TIME_TO_BEAT = 30;
 
@@ -14,6 +15,7 @@ interface TimerProps {
 
 const Timer = ({ gameEnded, onGameEnd, playerWasSuccessful }: TimerProps) => {
   const dialog = useRef<HTMLDialogElement>(null);
+  const winDialog = useRef<HTMLDialogElement>(null);
   const [time, setTime] = useState(0);
 
   useEffect(() => {
@@ -34,15 +36,6 @@ const Timer = ({ gameEnded, onGameEnd, playerWasSuccessful }: TimerProps) => {
       clearInterval(timerInterval);
     };
   }, [gameEnded, onGameEnd, time]);
-
-  // for test
-  // useEffect(() => {
-  //   const getDB = async () => {
-  //     await run({ email: "black-spades3@inboxkitten.com" });
-  //   };
-
-  //   getDB();
-  // }, []);
 
   useEffect(() => {
     if (gameEnded && !playerWasSuccessful) {
@@ -78,11 +71,7 @@ const Timer = ({ gameEnded, onGameEnd, playerWasSuccessful }: TimerProps) => {
         });
       }, 250);
 
-      const getDB = async () => {
-        await run({ email: "black-spades3@inboxkitten.com" });
-      };
-
-      getDB();
+      winDialog.current?.showModal();
 
       return () => {
         clearInterval(interval);
@@ -90,23 +79,55 @@ const Timer = ({ gameEnded, onGameEnd, playerWasSuccessful }: TimerProps) => {
     }
   }, [gameEnded, playerWasSuccessful, time]);
 
+  const submitReward = () => {
+    const submit = async () => {
+      await run({ email: "black-spades3@inboxkitten.com" });
+    };
+
+    submit();
+    window.location.reload();
+  };
+
   return (
-    <div className="text-center p-2 bg-gold text-black">
-      <h2 className="text-2xl font-bold">Time to beat: {TIME_TO_BEAT}s!</h2>
-      <h3 className="text-5xl font-bold">{time}</h3>
-      <dialog ref={dialog} className="p-5 rounded-lg dialog">
-        <p className="text-gold rounded-lg mb-2 block text-xl">Game Over!</p>
-        <button
-          className="p-1 text-white"
-          onClick={() => {
-            dialog.current?.close();
-            window.location.reload();
-          }}
-        >
-          Close
-        </button>
+    <>
+      <div className="text-center p-2 bg-gold text-black">
+        <h2 className="text-2xl font-bold">Time to beat: {TIME_TO_BEAT}s!</h2>
+        <h3 className="text-5xl font-bold">{time}</h3>
+      </div>
+      <dialog ref={dialog} className={clsx("p-5 rounded-lg", styles.dialog)}>
+        <div className="flex flex-col items-center">
+          <p className="text-gold rounded-lg mb-2 block text-xl">Game Over!</p>
+          <button
+            className="p-1 text-white outline-none"
+            onClick={() => {
+              dialog.current?.close();
+              window.location.reload();
+            }}
+          >
+            Close
+          </button>
+        </div>
       </dialog>
-    </div>
+      <dialog ref={winDialog} className={clsx("p-5 rounded-lg", styles.dialog)}>
+        <div className="flex flex-col">
+          <p className="text-gold rounded-lg mb-2 block text-xl">You win!</p>
+          <input
+            className="p-2 outline-none rounded-lg mb-2"
+            type="email"
+            placeholder="Enter your email"
+          />
+          <button
+            className="p-1 text-white border-[1px] border-white rounded-lg"
+            onClick={() => {
+              winDialog.current?.close();
+              submitReward();
+            }}
+          >
+            Get your prize
+          </button>
+        </div>
+      </dialog>
+    </>
   );
 };
 
